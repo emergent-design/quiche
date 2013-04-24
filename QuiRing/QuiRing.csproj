@@ -148,4 +148,11 @@
       <Name>Quiche</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\references\Windows\sqlite3.dll">
+      <Link>src\sqlite3.dll</Link>
+      <Gettext-ScanForTranslations>false</Gettext-ScanForTranslations>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

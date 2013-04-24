@@ -95,7 +95,6 @@ Would return something along the lines of:
 ```JSON
     {
         "Id": 2205639807,
-        "Name": "Bruce Wayne",
         "ZoneWhitelist": [],
         "TerminalWhitelist": []
     },
