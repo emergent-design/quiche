@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{59DCC8E3-AC2D-4211-8B60-3463F268ED57}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Quiche</RootNamespace>
+    <AssemblyName>quiche</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="websocket-sharp">
+      <HintPath>..\references\websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\references\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="src\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\Client.cs" />
+    <Compile Include="src\QuicheException.cs" />
+    <Compile Include="src\ICache.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Quiche.Data\Quiche.Data.csproj">
+      <Project>{D5E4D8DD-DC8B-486C-9F55-39CB57E06EFC}</Project>
+      <Name>Quiche.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

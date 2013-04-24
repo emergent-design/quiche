@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8379EF85-11E5-49A0-9809-8674F0F95C00}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Quiche.Providers</RootNamespace>
+    <AssemblyName>Quiche.Provider</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\references\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack">
+      <HintPath>..\references\ServiceStack.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\references\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite">
+      <HintPath>..\references\ServiceStack.OrmLite.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.OrmLite.Sqlite">
+      <HintPath>..\references\ServiceStack.OrmLite.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.ServiceInterface">
+      <HintPath>..\references\ServiceStack.ServiceInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\references\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>..\references\websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>..\References\QuiRing\Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="src\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\IQuicheProvider.cs" />
+    <Compile Include="src\QuicheProvider.cs" />
+    <Compile Include="src\SqliteBackedPerceptionProx.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Quiche\Quiche.csproj">
+      <Project>{59DCC8E3-AC2D-4211-8B60-3463F268ED57}</Project>
+      <Name>Quiche</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quiche.Logging\Quiche.LocalStorage.csproj">
+      <Project>{68FB0491-B8CE-49D8-8A23-14F39953E6FC}</Project>
+      <Name>Quiche.LocalStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quiche.Proxcard\Quiche.Proxcard.csproj">
+      <Project>{66D4D64F-39ED-4DDD-B5CF-39F6587E4ADD}</Project>
+      <Name>Quiche.Proxcard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quiche.Data\Quiche.Data.csproj">
+      <Project>{D5E4D8DD-DC8B-486C-9F55-39CB57E06EFC}</Project>
+      <Name>Quiche.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D5E4D8DD-DC8B-486C-9F55-39CB57E06EFC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Quiche.Data</RootNamespace>
+    <AssemblyName>Quiche.Data</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\references\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="src\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\Log.cs" />
+    <Compile Include="src\Setting.cs" />
+    <Compile Include="src\Terminal.cs" />
+    <Compile Include="src\User.cs" />
+    <Compile Include="src\Zone.cs" />
+    <Compile Include="src\IRemote.cs" />
+    <Compile Include="src\QuicheBackup.cs" />
+  </ItemGroup>
+</Project>

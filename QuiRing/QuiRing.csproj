@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <ProjectGuid>{4A3A20C8-08AB-4AE6-A04E-352C7006C188}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>QuiRing</RootNamespace>
+    <AssemblyName>QuiRing</AssemblyName>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\Justen Hyde\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <RunSourceAnalysis>False</RunSourceAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\CardsTab.cs" />
+    <Compile Include="src\CardsTab.Designer.cs">
+      <DependentUpon>CardsTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\FindUserForm.cs" />
+    <Compile Include="src\FindUserForm.Designer.cs">
+      <DependentUpon>FindUserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Icons.Designer.cs">
+      <DependentUpon>Icons.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="src\ListViewColumnSorter.cs" />
+    <Compile Include="src\LogsTab.cs" />
+    <Compile Include="src\LogsTab.Designer.cs">
+      <DependentUpon>LogsTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\MainForm.cs" />
+    <Compile Include="src\Program.cs" />
+    <Compile Include="src\QuiRingControl.cs" />
+    <Compile Include="src\UsersTab.cs" />
+    <Compile Include="src\UsersTab.Designer.cs">
+      <DependentUpon>UsersTab.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="src\CardsTab.resx">
+      <DependentUpon>CardsTab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\FindUserForm.resx">
+      <DependentUpon>FindUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Icons.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LogicalName>QuiRing.Icons.resources</LogicalName>
+      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\LogsTab.resx">
+      <DependentUpon>LogsTab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\MainForm.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MainForm.Designer1.cs</LastGenOutput>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UsersTab.resx">
+      <DependentUpon>UsersTab.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Quiche.Provider\Quiche.Providers.csproj">
+      <Project>{8379EF85-11E5-49A0-9809-8674F0F95C00}</Project>
+      <Name>Quiche.Providers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quiche.Data\Quiche.Data.csproj">
+      <Project>{D5E4D8DD-DC8B-486C-9F55-39CB57E06EFC}</Project>
+      <Name>Quiche.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quiche.Proxcard\Quiche.Proxcard.csproj">
+      <Project>{66D4D64F-39ED-4DDD-B5CF-39F6587E4ADD}</Project>
+      <Name>Quiche.Proxcard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Quiche\Quiche.csproj">
+      <Project>{59DCC8E3-AC2D-4211-8B60-3463F268ED57}</Project>
+      <Name>Quiche</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
