@@ -4,7 +4,7 @@ Quiche.Provider
 QuicheProvider is a singleton which provides access to its internal instance of IQuicheProvider. As it stands, only one class implementing IQuicheProvider exists (SqliteBackedPerceptionProx) which uses a Sqlite database and a PerceptionProx prox device. In most cases, this should be all that you need. If you wish to integrate with different databases or prox devices, you'll have to roll your own provider. SqliteBackedPerceptionProx should provide a reasonable reference implementation.
 
 ##Using Quiche.Provider##
-**QuiRing** is an example application built using QuicheProvider. The absolute basics are, however:
+**QuiRing** is an example application built using QuicheProvider which is probably the best point of reference. The absolute basics are, however:
 
 ```csharp
 public MyQuicheApp()
@@ -44,5 +44,8 @@ public MyQuicheApp()
     
     //Initialise and begin Quiche...
     QuicheProvider.Instance.Initialise("myQuicheApp");
+    
+    //Do whatever other initialisation you need to do...
+}
     
 ```
