@@ -11,6 +11,13 @@ So why is Quiche called Quiche? Honestly, it's because... well... who doesn't li
 
 **QuiRing** is an example winforms application which demonstrates the capabilities of Quiche. For many applications, QuiRing is more than sufficient for all card issue and data logging. Should you wish to roll your own application, or integrate Quiche into a larger solution, it's worth taking a look at QuiRing. Whilst much of the code is standard winforms gui implementation, the sections dealing specifically with Quiche are likely to be helpful for reference.
 
+Quiche uses the following third-party, open source resources:
+
+* [Websocket-sharp](https://github.com/sta/websocket-sharp) provides an easy-to-use websocket implementation.
+* [ServiceStack](https://github.com/ServiceStack/ServiceStack) provides, amongst other things, a persistence layer through OrmLite and a nice JSON client
+* [Mono](http://www.mono-project.com/Main_Page) makes the whole thing work on non-.net environments and also provides part of the Sqlite storage solution
+* [Sqlite](http://www.sqlite.org/), unsurprisingly, provides the rest of the Sqlite storage solution. It's installed to the system for linux platforms, but a binary is provided for those wishing to build and run on Windows.
+
 If you wish to roll your own solution without using Quiche at all, the following information is probably useful:
 
 # Qui Websocket Publication #
@@ -95,6 +102,7 @@ Would return something along the lines of:
 ```JSON
     {
         "Id": 2205639807,
+        "Name": "Bruce Wayne",
         "ZoneWhitelist": [],
         "TerminalWhitelist": []
     },

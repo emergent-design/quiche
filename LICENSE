@@ -19,3 +19,9 @@ OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTE
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ServiceStack is licensed separately, refer to https://github.com/ServiceStack/ServiceStack
+
+Websocket-sharp is licensed separately, refer to https://github.com/sta/websocket-sharp
+
+Mono.Data.Sqlite is licensed separately, refer to http://www.mono-project.com/FAQ:_Licensing
