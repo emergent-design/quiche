@@ -14,7 +14,7 @@ QuiRing provides the following features:
 
 #Connecting to a prox reader#
 
-You'll need a compatible prox reader ( [Perception-SI Ltd](http://www.perception-si.com) supply prox readers; you may be able to find other suppliers ). To connect, click on the Card Reader dropdown in the status bar at the bottom of the QuiRing window. Select the serial port that the prox reader is connected to. QuiRing will automatically try to reconnect upon startup if you close it down whilst connected.
+You'll need a compatible prox reader ( [Perception-SI Ltd](http://www.psi-ltd.com) supply prox readers; you may be able to find other suppliers ). To connect, click on the Card Reader dropdown in the status bar at the bottom of the QuiRing window. Select the serial port that the prox reader is connected to. QuiRing will automatically try to reconnect upon startup if you close it down whilst connected.
 
 #Connecting to Qui#
 

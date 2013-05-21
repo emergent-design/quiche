@@ -1,7 +1,7 @@
 Quiche.Proxcard
 ===============
 
-Quiche.Proxcard allows you to read from and write to proxcards. At present, the only type of prox card reader supported is PerceptionProx, a prox reader supplied by [Perception-SI Ltd](http://www.perception-si.com). If you wish to interface with a different hardware device, you will need to implement your own IProx device to replace PerceptionProx.
+Quiche.Proxcard allows you to read from and write to proxcards. At present, the only type of prox card reader supported is PerceptionProx, a prox reader supplied by [Perception-SI Ltd](http://www.psi-ltd.com). If you wish to interface with a different hardware device, you will need to implement your own IProx device to replace PerceptionProx.
 
 #Using ProxInput#
 

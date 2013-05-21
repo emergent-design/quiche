@@ -1,7 +1,7 @@
 Quiche: The Qui Cache Provider
 ==============================
 
-Psiloc is a networked biometric access control system provided by [Perception-SI Ltd](http://www.perception-si.com) which uses a combination of prox cards and face recognition. It's unusual in that rather than use an admin application, enrolment, permissions management, etc, are all performed simply by presenting prox cards to a Psiloc terminal on the network. This means that as well as access being secured by biometrics, even account management and setup is biometrically secured.
+Psiloc is a networked biometric access control system provided by [Perception-SI Ltd](http://www.psi-ltd.com) which uses a combination of prox cards and face recognition. It's unusual in that rather than use an admin application, enrolment, permissions management, etc, are all performed simply by presenting prox cards to a Psiloc terminal on the network. This means that as well as access being secured by biometrics, even account management and setup is biometrically secured.
 
 Psiloc also exposes some information about what Qui (the software which manages the Psiloc hardware) is doing for consumption by third-party data management so that the terminals can be integrated seamlessly into a complete system.
 
