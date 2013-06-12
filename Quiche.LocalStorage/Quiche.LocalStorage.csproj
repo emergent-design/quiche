@@ -8,7 +8,7 @@
     <ProjectGuid>{68FB0491-B8CE-49D8-8A23-14F39953E6FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Quiche.LocalStorage</RootNamespace>
-    <AssemblyName>Quiche.Logger</AssemblyName>
+    <AssemblyName>Quiche.LocalStorage</AssemblyName>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -20,7 +20,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -29,7 +28,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
