@@ -1,3 +1,5 @@
+*A Windows [installer](http://downloads.emergent-design.co.uk/quiche/) for the QuiRing example application and the latest builds of the [Quiche dlls](http://downloads.emergent-design.co.uk/quiche/latest/) are available for those who don't wish to build their own.*
+
 Quiche: The Qui Cache Provider
 ==============================
 
