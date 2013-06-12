@@ -54,10 +54,10 @@
     <Reference Include="websocket-sharp">
       <HintPath>..\references\websocket-sharp.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Data.Sqlite">
-      <HintPath>..\References\QuiRing\Mono.Data.Sqlite.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>..\references\Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -73,7 +73,7 @@
       <Project>{59DCC8E3-AC2D-4211-8B60-3463F268ED57}</Project>
       <Name>Quiche</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Quiche.Logging\Quiche.LocalStorage.csproj">
+    <ProjectReference Include="..\Quiche.LocalStorage\Quiche.LocalStorage.csproj">
       <Project>{68FB0491-B8CE-49D8-8A23-14F39953E6FC}</Project>
       <Name>Quiche.LocalStorage</Name>
     </ProjectReference>

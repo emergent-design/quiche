@@ -46,3 +46,8 @@ When reading or writing cards, begin the operation in QuiRing *first* with the c
 #Terminal status#
 
 The status of every terminal that QuiRing has seen on the network can be found in the Units tab. Each terminal is listed along with its current connection status and the serial number of the processing hub it is connected to.
+
+#Building a Windows installer#
+
+There's an [nsis](http://nsis.sourceforge.net/Main_Page) script in the root directory which will produce an installer package for QuiRing.
+

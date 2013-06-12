@@ -37,6 +37,9 @@
       <HintPath>..\references\ServiceStack.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\references\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

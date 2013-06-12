@@ -1,0 +1,111 @@
+!include "MUI2.nsh"
+
+!define /date VERSION "%y.%m.%d"
+
+SetCompressor /SOLID lzma
+
+Name "QuiRing"
+
+OutFile "QuiRing-${VERSION}-setup.exe"
+
+VIProductVersion "${VERSION}.0"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "QuiRing"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "LegalCopyright" "Emergent Design Ltd"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "FileVersion" "${VERSION}"
+
+InstallDir $PROGRAMFILES\QuiRing
+
+InstallDirRegKey HKLM "Software\QuiRing" "Install_Dir"
+
+RequestExecutionLevel admin
+
+!define MUI_ABORTWARNING
+
+;!insertmacro MUI_PAGE_LICENSE "licence.txt"
+!insertmacro MUI_PAGE_COMPONENTS
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+
+;Languages
+!insertmacro MUI_LANGUAGE "English"
+
+; The stuff to install
+Section ".net 4.0 (required)"
+
+  SectionIn RO
+
+  ClearErrors
+  ReadRegDWORD $0 HKLM "Software\Microsoft\Net Framework Setup\NDP\v4\Full" "Install"
+  IfErrors dotNet40NotFound
+  IntCmp $0 1 dotNet40Found
+  dotNet40NotFound: 
+      Banner::show /set 76 "Installing .NET Framework 4.0" "Please wait"  
+      File /nonfatal "references\dotNetFx40_Full_setup.exe"
+      ExecWait "$TEMP\dotNetFx40_Full_setup.exe /passive /norestart"
+      Delete /REBOOTOK "$TEMP\dotNetFx40_Full_setup.exe"
+      Banner::destroy
+
+  dotNet40Found:
+
+SectionEnd
+
+
+Section "QuiRing (required)"
+
+	SectionIn RO
+
+	; Set output path to the installation directory.
+	SetOutPath $INSTDIR
+
+	; Install files
+	File "QuiRing\bin\Release\*.dll"
+	File "QuiRing\bin\Release\QuiRing.exe"
+	File "references\Windows\sqlite3.dll"
+
+	SetOutPath $INSTDIR
+
+	; Write the installation path into the registry
+	WriteRegStr HKLM SOFTWARE\QuiRing "Install_Dir" "$INSTDIR"
+
+	; Write the uninstall keys for Windows
+	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\QuiRing" "DisplayName" "QuiRing"
+	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\QuiRing" "UninstallString" '"$INSTDIR\uninstall.exe"'
+	WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\QuiRing" "NoModify" 1
+	WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\QuiRing" "NoRepair" 1
+	WriteUninstaller "uninstall.exe"
+  
+SectionEnd
+
+
+; Optional section (can be disabled by the user)
+Section "Start Menu Shortcuts"
+
+  CreateDirectory "$SMPROGRAMS\QuiRing"
+  CreateShortCut "$SMPROGRAMS\QuiRing\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
+  CreateShortCut "$SMPROGRAMS\QuiRing\QuiRing.lnk" "$INSTDIR\QuiRing.exe" "" "$INSTDIR\QuiRing.exe" 0
+  
+SectionEnd
+
+Section "Start QuiRing when Windows starts"
+  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Run" "QuiRing" "$INSTDIR\QuiRing.exe"
+SectionEnd
+
+
+; Uninstaller
+Section "Uninstall"
+  
+  ; Remove registry keys
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\QuiRing"
+  DeleteRegKey HKLM SOFTWARE\QuiRing
+  DeleteRegKey HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Run\QuiRing"
+
+  ; Remove everything 
+  RMDir /r "$SMPROGRAMS\QuiRing"
+  RMDir /r "$INSTDIR"
+
+SectionEnd
+
+

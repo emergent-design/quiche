@@ -147,6 +147,10 @@
       <Project>{59DCC8E3-AC2D-4211-8B60-3463F268ED57}</Project>
       <Name>Quiche</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Quiche.LocalStorage\Quiche.LocalStorage.csproj">
+      <Project>{68FB0491-B8CE-49D8-8A23-14F39953E6FC}</Project>
+      <Name>Quiche.LocalStorage</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\references\Windows\sqlite3.dll">
