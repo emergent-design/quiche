@@ -8,7 +8,7 @@
     <ProjectGuid>{59DCC8E3-AC2D-4211-8B60-3463F268ED57}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Quiche</RootNamespace>
-    <AssemblyName>quiche</AssemblyName>
+    <AssemblyName>Quiche</AssemblyName>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -20,7 +20,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -29,7 +28,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
