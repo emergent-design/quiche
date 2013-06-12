@@ -153,10 +153,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\references\Windows\sqlite3.dll">
-      <Link>src\sqlite3.dll</Link>
-      <Gettext-ScanForTranslations>false</Gettext-ScanForTranslations>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="..\references\Windows\sqlite3.dll">
+      <Link>sqlite3.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
