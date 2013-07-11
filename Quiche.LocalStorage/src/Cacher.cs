@@ -76,13 +76,18 @@ namespace Quiche.LocalStorage
 		{
 			get
 			{
-				if(this.storage!=null)
+				if (this.storage!=null)
+				lock (this.storage)
 				{
-					using (var db = this.storage.OpenDbConnection()) 
+					if(this.storage!=null)
 					{
-						DateTime expired = DateTime.Now.AddSeconds(-this.terminalTimeout);
-						return db.Select<Terminal>().Where(t	=> this.connectedTerminals.ContainsKey(t.Id) 
-						                                   		&& this.connectedTerminals[t.Id] >= expired).ToList();
+						using (var db = this.storage.OpenDbConnection())
+						using (var tx = db.BeginTransaction())
+						{
+							DateTime expired = DateTime.Now.AddSeconds(-this.terminalTimeout);
+							return db.Select<Terminal>().Where(t	=> this.connectedTerminals.ContainsKey(t.Id) 
+							                                   		&& this.connectedTerminals[t.Id] >= expired).ToList();
+						}
 					}
 				}
 				return this.connectedTerminals.Keys.Select(t => new Terminal(){ Id = t}).ToList();
@@ -100,14 +105,20 @@ namespace Quiche.LocalStorage
 		{
 			get
 			{
-				if(this.storage!=null)
+				if (this.storage!=null)
+				lock(this.storage)
 				{
-					using (var db = this.storage.OpenDbConnection()) 
+					if(this.storage!=null)
 					{
-						DateTime expired = DateTime.Now.AddSeconds(-this.terminalTimeout);
-						return db.Select<Terminal>().Where(t	=> !this.connectedTerminals.ContainsKey(t.Id) 
-						                                   		|| this.connectedTerminals[t.Id] < expired).ToList();
+						using (var db = this.storage.OpenDbConnection()) 
+						using (var tx = db.BeginTransaction())
+						{
+							DateTime expired = DateTime.Now.AddSeconds(-this.terminalTimeout);
+							return db.Select<Terminal>().Where(t	=> !this.connectedTerminals.ContainsKey(t.Id) 
+							                                   		|| this.connectedTerminals[t.Id] < expired).ToList();
+						}
 					}
+
 				}
 				return new List<Terminal>();
 			}
@@ -150,32 +161,37 @@ namespace Quiche.LocalStorage
 		public bool Export(string cacheFile)
 		{
 			if (this.storage == null) return false;
-			TextWriter file = null;
-			using (var db = this.storage.OpenDbConnection())
+			lock(this.storage)
 			{
-				try
+				TextWriter file = null;
+				using (var db = this.storage.OpenDbConnection())
+				using (var t = db.BeginTransaction())
 				{
-					file = new System.IO.StreamWriter(cacheFile);
-					QuicheBackup backup = new QuicheBackup(){
-						Settings = db.Select<Setting>(),
-						Users = db.Select<User>(),
-						Terminals = db.Select<Terminal>(),
-						Zones = db.Select<Zone>(),
-						Logs = db.Select<Log>()
-					};
-					XmlSerializer serializer = new XmlSerializer(typeof(QuicheBackup));
-					serializer.Serialize(file, backup);
+					try
+					{
+						file = new System.IO.StreamWriter(cacheFile);
+						QuicheBackup backup = new QuicheBackup(){
+							Settings = db.Select<Setting>(),
+							Users = db.Select<User>(),
+							Terminals = db.Select<Terminal>(),
+							Zones = db.Select<Zone>(),
+							Logs = db.Select<Log>()
+						};
+						XmlSerializer serializer = new XmlSerializer(typeof(QuicheBackup));
+						serializer.Serialize(file, backup);
+						t.Commit();
+					}
+					catch (Exception e)
+					{
+						throw new QuicheException("Unable to export Qui cache", e);
+					}
+					finally
+					{
+						if (file!=null) file.Close();
+					}
 				}
-				catch (Exception e)
-				{
-					throw new QuicheException("Unable to export Qui cache", e);
-				}
-				finally
-				{
-					if (file!=null) file.Close();
-				}
+				return true;
 			}
-			return true;
 		}
 
 
@@ -191,32 +207,38 @@ namespace Quiche.LocalStorage
 		public bool Import(string cacheFile)
 		{
 			if (this.storage == null) return false;
-			TextReader file = null;
-			try
+			lock (this.storage)
 			{
-				file = new System.IO.StreamReader(cacheFile);
-				XmlSerializer serializer = new XmlSerializer(typeof(QuicheBackup));
-				QuicheBackup backup = (QuicheBackup)serializer.Deserialize(file);
-				using (var db = this.storage.OpenDbConnection())
+				TextReader file = null;
+				try
 				{
-					db.DropAndCreateTables(Cacher.TABLES);
-					foreach (Setting s in backup.Settings)		db.Insert<Setting>(s);
-					foreach (User u in backup.Users) 			db.Insert<User>(u);
-					foreach (Terminal u in backup.Terminals)	db.Insert<Terminal>(u);
-					foreach (Zone z in backup.Zones)			db.Insert<Zone>(z);
-					foreach (Log l in backup.Logs)				db.Insert<Log>(l); 
+					file = new System.IO.StreamReader(cacheFile);
+					XmlSerializer serializer = new XmlSerializer(typeof(QuicheBackup));
+					QuicheBackup backup = (QuicheBackup)serializer.Deserialize(file);
+					using (var db = this.storage.OpenDbConnection())
+					using (var t = db.BeginTransaction())
+					{
+						db.DropAndCreateTables(Cacher.TABLES);
+						foreach (Setting s in backup.Settings)		db.Insert<Setting>(s);
+						foreach (User u in backup.Users) 			db.Insert<User>(u);
+						foreach (Terminal u in backup.Terminals)	db.Insert<Terminal>(u);
+						foreach (Zone z in backup.Zones)			db.Insert<Zone>(z);
+						foreach (Log l in backup.Logs)				db.Insert<Log>(l); 
+						t.Commit();
+					}
+
 				}
+				catch (Exception e)
+				{
+					throw new QuicheException("Unable to import Qui cache", e);
+				}
+				finally
+				{
+					if (file!=null) file.Close();
+				}
+				Console.WriteLine("Imported");
+				return true;
 			}
-			catch (Exception e)
-			{
-				throw new QuicheException("Unable to import Qui cache", e);
-			}
-			finally
-			{
-				if (file!=null) file.Close();
-			}
-			return true;
-		
 		}
 
 	
@@ -237,12 +259,17 @@ namespace Quiche.LocalStorage
 		{
 			if (this.storage!=null && terminal!=null)
 			{
-				using (var db = this.storage.OpenDbConnection())
+				lock(this.storage)
 				{
-					if (terminal.QuiNode!= node)
+					using (var db = this.storage.OpenDbConnection())
+					using (var t = db.BeginTransaction())
 					{
-						terminal.QuiNode = node;
-						db.Save(terminal);
+						if (terminal.QuiNode!= node)
+						{
+							terminal.QuiNode = node;
+							db.Save(terminal);
+						}
+						t.Commit();
 					}
 				}
 			}
@@ -259,11 +286,16 @@ namespace Quiche.LocalStorage
 		public void Log(Log item)
 		{
 			if (this.storage!=null)
-			using (var db = this.storage.OpenDbConnection())
+			lock (this.storage)
 			{
-				db.Insert(item);
-				DateTime reference = DateTime.Now - this.LogExpiry;
-				db.Delete<Log>(l => l.Timestamp < reference);
+				using (var db = this.storage.OpenDbConnection())
+				using (var t = db.BeginTransaction())
+				{
+					db.Insert(item);
+					DateTime reference = DateTime.Now - this.LogExpiry;
+					db.Delete<Log>(l => l.Timestamp < reference);
+					t.Commit();
+				}
 			}
 		}	
 
@@ -279,9 +311,12 @@ namespace Quiche.LocalStorage
 			get
 			{
 				if (this.storage==null) return new List<Log>();
-
-				using (var db = this.storage.OpenDbConnection())
+				lock (this.storage)
+				{
+					using (var db = this.storage.OpenDbConnection())
+					using (var t = db.BeginTransaction())
 						return db.Select<Log>();
+				}
 			}
 		}
 
@@ -299,7 +334,12 @@ namespace Quiche.LocalStorage
 		public List<T> GetAll<T> () where T : IRemote, new()
 		{
 			if  (this.storage!=null) 
-				using (var db = this.storage.OpenDbConnection()) return db.Select<T>();
+			lock (this.storage)
+			{
+				using (var db = this.storage.OpenDbConnection())
+				using (var t = db.BeginTransaction())
+					return db.Select<T>();
+			}
 			return new List<T>();
 		}
 
@@ -316,7 +356,12 @@ namespace Quiche.LocalStorage
 		public T Get<T> (string id) where T : IRemote, new()
 		{
 			if (this.storage!=null)
-				using (var db = this.storage.OpenDbConnection()) return db.Select<T>().Where(t => t.Id == id).SingleOrDefault();
+			lock (this.storage)
+			{
+				using (var db = this.storage.OpenDbConnection()) 
+				using (var tx = db.BeginTransaction())
+					return db.Select<T>().Where(t => t.Id == id).SingleOrDefault();
+			}
 			return default(T);
 		}
 
@@ -339,8 +384,10 @@ namespace Quiche.LocalStorage
 		public List<T> Synchronise<T> (List<T> items) where T : IRemote, new()
 		{
 			if (this.storage!=null)
+			lock (this.storage)
 			{
-				using (var db = this.storage.OpenDbConnection())  
+				using (var db = this.storage.OpenDbConnection()) 
+				using (var t = db.BeginTransaction())
 				{
 					if (typeof(T) == typeof(User))	
 					{
@@ -359,6 +406,7 @@ namespace Quiche.LocalStorage
 					}
 					else db.SaveAll<T>(items);
 					items = db.Select<T>();
+					t.Commit ();
 				}
 			}
 			return items;
@@ -380,18 +428,23 @@ namespace Quiche.LocalStorage
 		public T Synchronise<T> (T item) where T : IRemote, new()
 		{
 			if (this.storage != null)
-			using (var db = this.storage.OpenDbConnection())
+			lock(this.storage)
 			{
-				if (item is User)
+				using (var db = this.storage.OpenDbConnection())
+				using (var t = db.BeginTransaction())
 				{
-					User user = item as User;
-					var cached = db.GetByIdOrDefault<User>(item.Id);
-					if (cached != null) 
+					if (item is User)
 					{
-						user.LastIssued = cached.LastIssued;
+						User user = item as User;
+						var cached = db.GetByIdOrDefault<User>(item.Id);
+						if (cached != null) 
+						{
+							user.LastIssued = cached.LastIssued;
+						}
 					}
+					db.Save(item);
+					t.Commit();
 				}
-				db.Save(item);
 			}
 			return item;
 		}
@@ -407,16 +460,21 @@ namespace Quiche.LocalStorage
 		public void Store (User user)
 		{
 			if (this.storage != null)
-			using (var db = this.storage.OpenDbConnection())
+			lock(this.storage)
 			{
-				var cached = db.GetByIdOrDefault<User>(user.Id);
-				if (cached != null) 
+				using (var db = this.storage.OpenDbConnection())
+				using (var t = db.BeginTransaction())
 				{
-					cached.LastIssued = user.LastIssued;
-					cached.Name = user.Name;
-					db.Save(cached);
+					var cached = db.GetByIdOrDefault<User>(user.Id);
+					if (cached != null) 
+					{
+						cached.LastIssued = user.LastIssued;
+						cached.Name = user.Name;
+						db.Save(cached);
+					}
+					else db.Save(user);
+					t.Commit();
 				}
-				else db.Save(user);
 			}
 		}
 
@@ -437,11 +495,13 @@ namespace Quiche.LocalStorage
 			get 
 			{
 				if (this.storage!=null)
-				using (var db = this.storage.OpenDbConnection())
+				lock(this.storage)
 				{
-					//foreach (Setting s in db.Select<Setting>()) Console.WriteLine(s.Id + " " + s.Id + " " + s.Value);
-					return db.Select<Setting>().ToDictionary(i => i.Id, i => i.Value);
-	
+					using (var db = this.storage.OpenDbConnection())
+					using (var t = db.BeginTransaction())
+					{
+						return db.Select<Setting>().ToDictionary(i => i.Id, i => i.Value);
+					}
 				}
 				return new Dictionary<string, string>();
 			}
@@ -449,11 +509,14 @@ namespace Quiche.LocalStorage
 			set
 			{
 				if (this.storage!=null)
+				lock(this.storage)
 				{
 					using (var db = this.storage.OpenDbConnection())
+					using (var t = db.BeginTransaction())
 					{
 						db.DeleteAll<Setting>();
 						db.SaveAll(value.Select(s => new Setting { Id = s.Key, Value = s.Value}));
+						t.Commit();
 					}
 				}
 			}
@@ -472,7 +535,15 @@ namespace Quiche.LocalStorage
 		public void SaveSetting(string name, string value)
 		{
 			if (this.storage!=null)
-				using (var db = this.storage.OpenDbConnection()) db.Save(new Setting { Id = name, Value = value });
+			lock(this.storage)
+			{
+				using (var db = this.storage.OpenDbConnection())
+				using (var t = db.BeginTransaction())
+				{
+					db.Save(new Setting { Id = name, Value = value });
+					t.Commit();
+				}
+			}
 		}
 
 
@@ -485,10 +556,15 @@ namespace Quiche.LocalStorage
 		public void DeleteSetting(string name)
 		{
 			if (this.storage!=null)
+			lock(this.storage)
+			{
 				using (var db = this.storage.OpenDbConnection()) 
+				using (var t = db.BeginTransaction())
 				{
 					if (db.Select<Setting>(s => s.Id == name).Count > 0) db.Delete<Setting>(s => s.Id == name);
+					t.Commit();
 				}
+			}
 		}
 	}
 }

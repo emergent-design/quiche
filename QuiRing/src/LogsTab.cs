@@ -31,7 +31,7 @@ namespace QuiRing
 			{
 				Terminal source = QuicheProvider.Instance.Client.Get<Terminal>(log.TerminalId);
 				User user = QuicheProvider.Instance.Client.Get<User>(log.UserId);
-				this.User = user != null ? user.Name : log.UserId; 
+				this.User = ( user != null && user.Name!=string.Empty ) ? user.Name : log.UserId; 
 				this.Terminal = source != null ? (source.Name!= "" && source.Name != null ? source.Name : source.Id) : log.TerminalId;
 				this.Result = log.Result;
 				this.Event = log.Event;
