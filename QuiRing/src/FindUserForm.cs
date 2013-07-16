@@ -55,7 +55,7 @@ namespace QuiRing
 		{
 			if (e.KeyChar == (char)Keys.Return)
 	        {
-				if(this.candidates.Count > 0)
+				if(this.candidates.Count > 0 && this.resultsTable.Items.Count > 0)
 				{
 					this.resultsTable.Focus();
 					this.resultsTable.Items[0].Selected = true;
