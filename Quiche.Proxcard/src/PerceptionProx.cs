@@ -294,13 +294,13 @@ namespace Quiche.Proxcard
 
 			if (!this.cancel) 
 			{
-				if (this.WritePermission(this.terminals, Page.Terminals))this.ReportProgress(false, 50, false); 
+				if (this.WritePermission(terminals, Page.Terminals))this.ReportProgress(false, 50, false); 
 				else return false;
 			}
 
 			if (!this.cancel)
 			{
-				if (this.WritePermission(this.zones, Page.Zones)) this.ReportProgress(false, 70, false); 
+				if (this.WritePermission(zones, Page.Zones)) this.ReportProgress(false, 70, false); 
 				else return false;
 			}
 					
