@@ -11,9 +11,6 @@ using Quiche.Providers;
 
 namespace QuiRing
 {
-	/// <summary>
-	/// Description of UsersTab.
-	/// </summary>
 	public partial class UsersTab : QuiRingControl
 	{
 		protected List<Zone> zones;

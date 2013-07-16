@@ -373,7 +373,7 @@ namespace Quiche
 			if(this.watchman!=null)
 			{
 				var result = this.watchman.Get<List<T>>(string.Format("/{0}s/", typeof(T).Name.ToLower()));
-				if (this.Cache!=null) this.Cache.Synchronise(result);
+				if (this.Cache!=null) result = this.Cache.Synchronise(result);
 				return result;
 			}
 			else return (this.Cache!= null) ? this.Cache.GetAll<T>() : new List<T>();
