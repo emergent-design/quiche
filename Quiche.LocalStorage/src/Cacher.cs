@@ -392,7 +392,7 @@ namespace Quiche.LocalStorage
 					if (typeof(T) == typeof(User))	
 					{
 						//need to make sure we don't mess up the
-						//local-only or unsent name data
+						//local-only data
 						foreach(IRemote i in items)
 						{
 							User u = i as User;
@@ -400,6 +400,7 @@ namespace Quiche.LocalStorage
 							if (cached != null) 
 							{
 								u.LastIssued = cached.LastIssued;
+								u.Name = cached.Name;
 							}
 							db.Save(u);
 						}
