@@ -53,6 +53,7 @@
 			this.notifyMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.restoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.mainTabControl.SuspendLayout();
 			this.usersPage.SuspendLayout();
@@ -264,7 +265,8 @@
 			// 
 			this.notifyMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 									this.exitToolStripMenuItem,
-									this.restoreToolStripMenuItem});
+									this.restoreToolStripMenuItem,
+									this.infoToolStripMenuItem});
 			this.notifyMenu.Name = "notifyMenu";
 			this.notifyMenu.Size = new System.Drawing.Size(93, 26);
 			// 
@@ -281,6 +283,13 @@
 			this.restoreToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
 			this.restoreToolStripMenuItem.Text = "Show";
 			this.restoreToolStripMenuItem.Click += new System.EventHandler(this.RestoreToolStripMenuItemClick);
+			// 
+			// infoToolStripMenuItem
+			//
+			this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
+			this.infoToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+			this.infoToolStripMenuItem.Text = "About";
+			this.infoToolStripMenuItem.Click += new System.EventHandler(this.InfoToolStripMenuItemClick);
 			// 
 			// QuiRingForm
 			// 
@@ -314,6 +323,7 @@
 		private QuiRing.UsersTab usersTab;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem restoreToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
 		private System.Windows.Forms.ContextMenuStrip notifyMenu;
 		private System.Windows.Forms.ColumnHeader statusColumn;
 		private System.Windows.Forms.ColumnHeader nameColumn;

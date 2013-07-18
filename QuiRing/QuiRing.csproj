@@ -105,6 +105,7 @@
     <Compile Include="src\UsersTab.Designer.cs">
       <DependentUpon>UsersTab.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="src\CardsTab.resx">

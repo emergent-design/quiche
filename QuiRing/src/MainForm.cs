@@ -310,7 +310,15 @@ namespace QuiRing
 			else this.restoreToolStripMenuItem.Text = "Hide";
 
 		}
-		
+
+		void InfoToolStripMenuItemClick (object sender, EventArgs e)
+		{
+
+			string version = new DateTime(2000,1,1).AddDays(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build).ToString("yy.MM.dd");
+			MessageBox.Show(string.Format("QuiRing version {0}({1})\n\nSee the Quiche project for details\n\nhttps://github.com/emergent-design/quiche", version, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Revision.ToString()), "About QuiRing", 
+			                MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
 		void ExitToolStripMenuItemClick(object sender, EventArgs e)
 		{
 			if (System.Environment.OSVersion.Platform != PlatformID.Unix)
