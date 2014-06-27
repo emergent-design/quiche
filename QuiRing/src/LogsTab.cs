@@ -110,11 +110,15 @@ namespace QuiRing
 
 		public void OnLog(Log log)
 		{
-			this.logs.RaiseListChangedEvents = false;
-			while (this.logs.Count >= 1024) this.logs.RemoveAt(0);
-			this.RemoveExtraRows();
-			this.logs.RaiseListChangedEvents = true;
-			this.logs.Add(new LogItem(log));
+			if (!InvokeRequired)
+			{
+				this.logs.RaiseListChangedEvents = false;
+				while (this.logs.Count >= 1) this.logs.RemoveAt(0);
+				//this.RemoveExtraRows();
+				this.logs.RaiseListChangedEvents = true;
+				this.logs.Add(new LogItem(log));
+			}
+			else this.BeginInvoke (new Action<Log>(this.OnLog), log);
 		}
 
 		void ConnectButtonClick(object sender, EventArgs e)
@@ -183,16 +187,20 @@ namespace QuiRing
 
 		public void OnQuiConnection(ConnectionEvent type, string address, int port)
 		{
-			this.addressBox.Text = address;
-			this.portNumberSelection.Value = (decimal)port;
-			if (!QuicheProvider.Instance.Client.Connect && !QuicheProvider.Instance.Client.Connected)
+			if (!InvokeRequired)
 			{
-				this.connectButton.Text = "Connect";
-				this.addressBox.Enabled = true;
-				this.portNumberSelection.Enabled = true;
+				this.addressBox.Text = address;
+				this.portNumberSelection.Value = (decimal)port;
+				if (!QuicheProvider.Instance.Client.Connect && !QuicheProvider.Instance.Client.Connected)
+				{
+					this.connectButton.Text = "Connect";
+					this.addressBox.Enabled = true;
+					this.portNumberSelection.Enabled = true;
+				}
+				else this.connectButton.Text = type == ConnectionEvent.Connected ? "Disconnect" : type == ConnectionEvent.Error ? "Cancel" : "Connect";
+				this.connectButton.Enabled = true;
 			}
-			else this.connectButton.Text = type == ConnectionEvent.Connected ? "Disconnect" : type == ConnectionEvent.Error ? "Cancel" : "Connect";
-			this.connectButton.Enabled = true;
+			else this.BeginInvoke(new Action<ConnectionEvent, string, int>(this.OnQuiConnection), type, address, port);
 		}
 
 	}

@@ -208,30 +208,34 @@ namespace QuiRing
 		
 		public void OnCardRead(TokenType type, uint pin, List<ushort> units, List<ushort> zones)
 		{
-			this.userLogView.Items.Clear();
-			this.terminalsList.Items.Clear();
-			this.zonesList.Items.Clear();
-			this.authorisedTerminalList.Items.Clear();
-			this.authorisedZoneList.Items.Clear();
-			this.cardIdBox.Text = string.Empty;
-			this.nameBox.Text = string.Empty;
-			this.issuedBox.Text = string.Empty;
-			if((type == TokenType.User) || (type == TokenType.Proxy))
+			if (!this.InvokeRequired)
 			{
-				this.cardIdBox.Text = pin.ToString();
-				this.saveUserButton.Enabled = true;
-				this.createReplicaButton.Enabled = false;
-				this.nameBox.Enabled = true;
-		
-				this.SelectUser(QuicheProvider.Instance.Client.Get<User>(pin.ToString()));
-				this.SetCurrentPermissions(units, zones);
+				this.userLogView.Items.Clear();
+				this.terminalsList.Items.Clear();
+				this.zonesList.Items.Clear();
+				this.authorisedTerminalList.Items.Clear();
+				this.authorisedZoneList.Items.Clear();
+				this.cardIdBox.Text = string.Empty;
+				this.nameBox.Text = string.Empty;
+				this.issuedBox.Text = string.Empty;
+				if((type == TokenType.User) || (type == TokenType.Proxy))
+				{
+					this.cardIdBox.Text = pin.ToString();
+					this.saveUserButton.Enabled = true;
+					this.createReplicaButton.Enabled = false;
+					this.nameBox.Enabled = true;
+			
+					this.SelectUser(QuicheProvider.Instance.Client.Get<User>(pin.ToString()));
+					this.SetCurrentPermissions(units, zones);
 
+				}
+				else
+				{
+					this.saveUserButton.Enabled = false;
+					this.createReplicaButton.Enabled = false;
+				}
 			}
-			else
-			{
-				this.saveUserButton.Enabled = false;
-				this.createReplicaButton.Enabled = false;
-			}
+			else this.BeginInvoke(new Action<TokenType, uint, List<ushort>, List<ushort>>(this.OnCardRead), type, pin, units, zones);
 		}
 		
 		void SaveUserButtonClick(object sender, EventArgs e)

@@ -89,28 +89,32 @@ namespace QuiRing
 			}
 		}
 
-		public void OnCardRead(TokenType type, uint pin, List<ushort> zones, List<ushort> terminals)
+		public void OnCardRead(TokenType type, uint pin, List<ushort> terminals, List<ushort> zones)
 		{
-			if(this.displayCardData)
+			if(!this.InvokeRequired)
 			{
-				string tokenType = "User Card";
-				this.displayCardData = false;
-				switch (type)
+				if(this.displayCardData)
 				{
-					case TokenType.Proxy: tokenType = "User Proxy Card"; break;
-					case TokenType.AdminToggle: tokenType = "Control Card (Admin Permissions Toggle)"; break;
-					case TokenType.Enrol: tokenType = "Control Card (Enrol)"; break;
-					case TokenType.Revoke: tokenType = "Control Card (Revoke)"; break;
-					case TokenType.Verify: tokenType = "Control Card (Verify)"; break;
-					case TokenType.Access: tokenType = "Control Card (Access Permissions Set)"; break;
-					default: break;
+					string tokenType = "User Card";
+					this.displayCardData = false;
+					switch (type)
+					{
+						case TokenType.Proxy: tokenType = "User Proxy Card"; break;
+						case TokenType.AdminToggle: tokenType = "Control Card (Admin Permissions Toggle)"; break;
+						case TokenType.Enrol: tokenType = "Control Card (Enrol)"; break;
+						case TokenType.Revoke: tokenType = "Control Card (Revoke)"; break;
+						case TokenType.Verify: tokenType = "Control Card (Verify)"; break;
+						case TokenType.Access: tokenType = "Control Card (Access Permissions Set)"; break;
+						default: break;
+					}
+					
+					string text = string.Format("Card information: \nType: {0}\nCard ID: {1}\nZones: {2}\nTerminals :{3}", tokenType, pin.ToString(), zones!= null && zones.Count >  0 ? string.Join(", ", zones.ToArray()) : "None", terminals != null && terminals.Count > 0 ? string.Join(", ", terminals.ToArray()) : "None");
+					User u = QuicheProvider.Instance.Client.Get<User>(pin.ToString());
+					if (u!=null && u.Name!= null && u.Name!="") text = string.Format("{0}\nUser: {1}", text, u.Name);
+					MessageBox.Show(text, "QuiRing: Card Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
-				
-				string text = string.Format("Card information: \nType: {0}\nCard ID: {1}\nZones: {2}\nTerminals :{3}", tokenType, pin.ToString(), zones!= null && zones.Count >  0 ? string.Join(", ", zones.ToArray()) : "None", terminals != null && terminals.Count > 0 ? string.Join(", ", terminals.ToArray()) : "None");
-				User u = QuicheProvider.Instance.Client.Get<User>(pin.ToString());
-				if (u!=null && u.Name!= null && u.Name!="") text = string.Format("{0}\nUser: {1}", text, u.Name);
-				MessageBox.Show(text, "QuiRing: Card Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+			else this.BeginInvoke(new Action<TokenType, uint, List<ushort>, List<ushort>>(this.OnCardRead), type, pin, terminals, zones);
 		}
 	}
 }
