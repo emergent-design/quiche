@@ -43,7 +43,7 @@ namespace QuiRing
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-
+		
 			QuicheProvider.Initialise<SqliteBackedPerceptionProx>();
 			QuicheProvider.Instance.CardProgress += this.OnCardProgress;
 			QuicheProvider.Instance.CardOperation += this.OnCardOperation;

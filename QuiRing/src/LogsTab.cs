@@ -55,6 +55,7 @@ namespace QuiRing
 
 			this.logs.RaiseListChangedEvents = false;
 			this.logView.DataSource = this.logs;
+
 		}
 
 		public void Initialise()
@@ -112,11 +113,24 @@ namespace QuiRing
 		{
 			if (!InvokeRequired)
 			{
+
+				if(this.logs.Count<25)
+				{
+					this.logs.Add(new LogItem(log));
+					if (this.logs.Count<=1) return;
+					
+				}
 				this.logs.RaiseListChangedEvents = false;
-				while (this.logs.Count >= 1) this.logs.RemoveAt(0);
-				//this.RemoveExtraRows();
+				LogItem current;
+				LogItem prev = this.logs[0];
+				for (int i = 1; i < this.logs.Count ; i++)
+				{
+					current = this.logs[i];
+					this.logs[i] = prev;
+					prev = current;
+				}
 				this.logs.RaiseListChangedEvents = true;
-				this.logs.Add(new LogItem(log));
+				this.logs[0] = new LogItem(log);
 			}
 			else this.BeginInvoke (new Action<Log>(this.OnLog), log);
 		}
