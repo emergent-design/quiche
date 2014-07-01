@@ -129,8 +129,9 @@ namespace QuiRing
 					this.logs[i] = prev;
 					prev = current;
 				}
-				this.logs.RaiseListChangedEvents = true;
-				this.logs[0] = new LogItem(log);
+                		this.logs[0] = new LogItem(log);
+                		this.logs.RaiseListChangedEvents = true;
+                		this.logs.ResetBindings();
 			}
 			else this.BeginInvoke (new Action<Log>(this.OnLog), log);
 		}
