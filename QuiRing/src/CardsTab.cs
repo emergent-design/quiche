@@ -36,7 +36,6 @@ namespace QuiRing
 			this.detailsButton.Text = "Read Card Details";
 			this.wipeButton.Text = "Wipe Card";
 			this.createAccessCard.Text = "Create Access Permissions Card";
-			//this.displayCardData = false;
 			this.createEnrolButton.Enabled = QuicheProvider.Instance.ProxConnected;
 			this.createPermissionsCard.Enabled = QuicheProvider.Instance.ProxConnected;
 			this.createRevokeButton.Enabled = QuicheProvider.Instance.ProxConnected;
@@ -44,8 +43,6 @@ namespace QuiRing
 			this.wipeButton.Enabled = QuicheProvider.Instance.ProxConnected;
 			this.detailsButton.Enabled = QuicheProvider.Instance.ProxConnected;
 			this.createAccessCard.Enabled = QuicheProvider.Instance.ProxConnected;
-			Console.WriteLine("ResetControls");
-
 		}
 		
 		public void DisableControls()
