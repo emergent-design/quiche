@@ -68,6 +68,7 @@ namespace QuiRing
 			this.addressBox.Text = QuicheProvider.Instance.Client.Address;
 			this.portNumberSelection.Value = (decimal)QuicheProvider.Instance.Client.Port;
 			string logLocation = QuicheProvider.Instance.LogPath;
+			QuicheProvider.Instance.LogPath = logLocation;
 			if(logLocation!=null && logLocation!="") this.logButton.Text = string.Format("Logging to: {0}", logLocation);
 			else this.logButton.Text = "Set log path";
 		}
