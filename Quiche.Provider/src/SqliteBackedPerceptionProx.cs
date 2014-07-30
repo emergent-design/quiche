@@ -143,7 +143,7 @@ namespace Quiche.Providers
 				this.client.LogReceived+=this.Cache.Log;
 				this.client.Initialise(this.Cache);
 				var settings = this.Cache.Settings;
-				this.logger = settings.ContainsKey("logger.path") ? new Logger(settings["logger.path"]) : null;
+				if (settings.ContainsKey("logger.path")) this.LogPath = settings["logger.path"];
 				this.initialised = true;
 				this.cardReader = new ProxInput();
 				this.cardReader.CardProgress += (error, progress, read) => {
