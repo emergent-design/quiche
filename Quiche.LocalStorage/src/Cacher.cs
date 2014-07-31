@@ -405,7 +405,20 @@ namespace Quiche.LocalStorage
 							db.Save(u);
 						}
 					}
-					else db.SaveAll<T>(items);
+					else 
+					{
+						if (typeof(T) == typeof(Terminal))
+						{
+							foreach(IRemote i in items)
+							{
+								Terminal term = i as Terminal;
+								var cached = db.GetByIdOrDefault<Terminal>(term.Id);
+								if (cached != null) term.QuiNode = cached.QuiNode;
+								db.Save(term);
+							}
+						}
+						else db.SaveAll<T>(items);
+					}
 					items = db.Select<T>();
 					t.Commit ();
 				}
@@ -442,6 +455,12 @@ namespace Quiche.LocalStorage
 						{
 							user.LastIssued = cached.LastIssued;
 						}
+					}
+					if (item is Terminal)
+					{
+						Terminal term = item as Terminal;
+						var cached = db.GetByIdOrDefault<Terminal>(term.Id);
+						if (cached != null) term.QuiNode = cached.QuiNode;
 					}
 					db.Save(item);
 					t.Commit();
